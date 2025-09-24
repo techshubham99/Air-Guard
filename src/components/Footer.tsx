@@ -210,7 +210,7 @@ const Footer = () => {
                 <span>Powered by NASA TEMPO</span>
               </div>
               <Separator orientation="vertical" className="h-4 bg-primary-foreground/20" />
-              <div>Made with ❤️ for cleaner air</div>
+              <div>Made by TEAM LAZER⚡</div>
             </div>
           </div>
         </div>
