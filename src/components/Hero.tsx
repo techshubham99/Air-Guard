@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { MapPin, Shield, Satellite } from 'lucide-react';
+import { MapPin, Shield, Satellite, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import heroBackground from '@/assets/hero-bg.jpg';
 import Earth3D from './Earth3D';
-import SearchBar from './ui/SearchBar';
 
 interface HeroProps {
   location: string;
@@ -14,14 +13,16 @@ const Hero = ({ location, setLocation }: HeroProps) => {
   const [currentAQI, setCurrentAQI] = useState<number>(42);
   const [advice, setAdvice] = useState<string>('Loading...');
   const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState('');
 
-  const handleSearch = async (searchLocation: string) => {
-    setLocation(searchLocation);
+  const handleSearch = async () => {
+    if (!query) return;
+    setLocation(query);
     setIsLoading(true);
 
     try {
       // 🌍 Geocoding: Get lat/lon
-      const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${searchLocation}`);
+      const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${query}`);
       const geoData = await geoRes.json();
       if (!geoData.results || geoData.results.length === 0) throw new Error('City not found');
 
@@ -54,9 +55,9 @@ const Hero = ({ location, setLocation }: HeroProps) => {
   };
 
   const getAQIColor = (aqi: number) => {
-    if (aqi <= 50) return 'text-aqi-good';
-    if (aqi <= 100) return 'text-aqi-moderate';
-    return 'text-aqi-unhealthy';
+    if (aqi <= 50) return 'text-green-400';
+    if (aqi <= 100) return 'text-yellow-400';
+    return 'text-red-400';
   };
 
   const getAQICategory = (aqi: number) => {
@@ -98,15 +99,34 @@ const Hero = ({ location, setLocation }: HeroProps) => {
             </div>
 
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-              Breathe Safer with <span className="bg-gradient-to-r from-blue-200 via-cyan-200 to-green-200 bg-clip-text text-transparent animate-pulse-slow drop-shadow-lg">AI-Powered</span> Air Quality Predictions
+              Breathe Safer with{' '}
+              <span className="bg-gradient-to-r from-blue-200 via-cyan-200 to-green-200 bg-clip-text text-transparent animate-pulse-slow drop-shadow-lg">
+                AI-Powered
+              </span>{' '}
+              Air Quality Predictions
             </h1>
 
             <p className="text-xl text-white/80 mb-8 max-w-2xl">
               Get hyperlocal air quality forecasts with 85% accuracy using NASA satellite data and advanced machine learning.
             </p>
 
-            <div className="mb-12">
-              <SearchBar onSearch={handleSearch} />
+            {/* 🌟 New Futuristic Search Bar */}
+            <div className="flex items-center w-full max-w-lg bg-white/10 backdrop-blur-xl rounded-full border border-white/20 px-4 py-2 shadow-lg transition-all duration-300 hover:shadow-cyan-400/40">
+              <Search className="w-6 h-6 text-cyan-300 mr-3 animate-pulse" />
+              <input
+                type="text"
+                placeholder="Search city for Air Quality..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                className="flex-1 bg-transparent border-none outline-none text-white placeholder-white/70 text-lg"
+              />
+              <button
+                onClick={handleSearch}
+                className="ml-3 bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-6 py-2 rounded-full font-semibold hover:scale-105 hover:shadow-lg transition-transform duration-300"
+              >
+                Search
+              </button>
             </div>
           </motion.div>
 
@@ -120,8 +140,10 @@ const Hero = ({ location, setLocation }: HeroProps) => {
                 </div>
 
                 <div className="mb-6 relative">
-                  <div className="absolute inset-0 bg-gradient-radial from-aqi-good/20 to-transparent blur-xl animate-pulse-slow" />
-                  <div className={`text-6xl font-bold mb-2 ${getAQIColor(currentAQI)} relative z-10 drop-shadow-lg`}>{isLoading ? '...' : currentAQI}</div>
+                  <div className="absolute inset-0 bg-gradient-radial from-green-400/20 to-transparent blur-xl animate-pulse-slow" />
+                  <div className={`text-6xl font-bold mb-2 ${getAQIColor(currentAQI)} relative z-10 drop-shadow-lg`}>
+                    {isLoading ? '...' : currentAQI}
+                  </div>
                   <div className="text-white/90 text-lg font-semibold relative z-10">{isLoading ? 'Fetching...' : getAQICategory(currentAQI)}</div>
                   <div className="text-white/70 text-sm relative z-10">Air Quality Index</div>
                 </div>
