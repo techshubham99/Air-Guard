@@ -15,7 +15,7 @@ import NotFound from "./pages/NotFound";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Chatbot from "@/components/Chatbot"; // ✅ Import Chatbot
+import Chatbot from "@/components/Chatbot"; // ✅ Make sure file is "Chatbot.tsx"
 
 const queryClient = new QueryClient();
 
@@ -28,12 +28,12 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <div className="min-h-screen bg-background relative">
+          <div className="min-h-screen bg-background relative flex flex-col">
             {/* Header */}
             <Header onLocationSelect={setLocation} />
 
             {/* Main content */}
-            <main>
+            <main className="flex-1">
               <Routes>
                 <Route
                   path="/"
@@ -54,7 +54,7 @@ const App = () => {
             {/* Footer */}
             <Footer />
 
-            {/* ✅ Chatbot component */}
+            {/* ✅ Chatbot (floating button, stays fixed on screen) */}
             <Chatbot />
           </div>
         </BrowserRouter>
