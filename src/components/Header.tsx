@@ -41,7 +41,7 @@ const Header = ({ onLocationSelect }: HeaderProps) => {
               className="w-12 h-12 rounded-full shadow-xl hover:rotate-3 hover:scale-110 transition-all duration-500"
             />
             <div className="text-2xl font-extrabold bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 bg-clip-text text-transparent animate-pulse">
-              AirGuard
+              AirGuard Pro
             </div>
           </Link>
 
