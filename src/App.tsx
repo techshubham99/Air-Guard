@@ -15,7 +15,7 @@ import NotFound from "./pages/NotFound";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Chatbot from "@/components/Chatbot"; // ✅ Make sure file is "Chatbot.tsx"
+import Chatbot from "@/components/Chatbot";
 
 const queryClient = new QueryClient();
 

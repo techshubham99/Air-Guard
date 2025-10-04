@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import LocationModal from "./LocationModal";
-import NasaDataModal from "./NasaDataModal";
-import AlertsModal from "./AlertsModal";
+import NasaDataModal from "./nasadatamodal";
+import AlertsModal from "./Alertsmodal";
 
 interface HeaderProps {
   onLocationSelect: (location: string) => void;
